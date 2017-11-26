@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Dashed Lines (Symbols)</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      // This example converts a polyline to a dashed line, by
+      // setting the opacity of the polyline to 0, and drawing an opaque symbol
+      // at a regular interval on the polyline.
+
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 2,
+          center: {lat: 25.276987, lng: 55.296249},
+          mapTypeId: 'terrain'
+        });
+
+        var dubaiLatLng = {lat: 25.276987, lng: 55.296249};
+
+        var marker = new google.maps.Marker({
+          position: dubaiLatLng,
+          map: map,
+          title: 'Hello World!'
+        });
+
+        var markers = [];
+
+        var lines = [];
+
+
+        google.maps.event.addListener(map, "click", function (e) {
+
+          //lat and lng is available in e object
+          var latLng = e.latLng;
+          var clickLat = latLng.lat();
+          var clickLng = latLng.lng(); 
+          console.log("latitude,longitude", latLng);
+
+          clearMarkersLines();
+          
+        var clickLatLng = {lat: clickLat, lng: clickLng};
+         var clickedMarker = new google.maps.Marker({
+          position: clickLatLng,
+          map: map,
+          title: 'Hello World!'
+        });
+        markers.push(clickedMarker);
+
+        // Define a symbol using SVG path notation, with an opacity of 1.
+        var lineSymbol = {
+          path: 'M 0,-1 0,1',
+          strokeOpacity: 1,
+          scale: 4
+        };
+
+        // Create the polyline, passing the symbol in the 'icons' property.
+        // Give the line an opacity of 0.
+        // Repeat the symbol at intervals of 20 pixels to create the dashed effect.
+        var line = new google.maps.Polyline({
+          path: [dubaiLatLng, clickLatLng],
+          strokeOpacity: 0,
+          strokeColor: "#FF0000",
+          strokeWeight: 3,
+          icons: [{
+            icon: lineSymbol,
+            offset: '0',
+            repeat: '20px'
+          }]
+        });
+           line.setMap(map);
+        lines.push(line);
+
+      });
+
+      function clearMarkersLines(){
+        for(var i=0;i<markers.length;i++){
+          markers[i].setMap(null);
+        }
+
+        for(var j=0;j<lines.length;j++){
+            lines[j].setMap(null);
+        }
+      }
+      }
+
+     var countDown = 1;
+     var rollDice = setInterval(function() {
+    console.log(countDown);
+
+    if (countDown == 0) {
+        clearInterval(rollDice);
+         var ev = new MouseEvent('click', {
+        'view': window,
+        'bubbles': true,
+        'cancelable': true,
+        'clientX':875,
+        'clientY':399
+    });
+
+    var el = document.elementFromPoint(875,399);
+
+    el.dispatchEvent(ev);
+     
+    }
+    countDown--;
+}, 1000);
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzul6aTqbxvjBQvJzOhckHHZwsvJ7gZvU&callback=initMap">
+    </script>
+  </body>
+</html>

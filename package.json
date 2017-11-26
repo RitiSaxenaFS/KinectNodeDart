@@ -1,0 +1,16 @@
+{
+    "name": "webclient-express-server",
+    "version": "0.0.20",
+    "description": "show skeletons in browser",
+    "main": "output.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Riti/Neenu ",
+    "license": "MIT",
+    "dependencies": {
+        "express": "~4.9.5",
+        "kinect2": "^0.1.5",
+        "socket.io": "~1.1.0"
+    }
+}

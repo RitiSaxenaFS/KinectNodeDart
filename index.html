@@ -1,0 +1,119 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>The HTML5 Kimect</title>
+  <meta name="description" content="The HTML5 Kinect">
+  <meta name="author" content="SitePoint">
+  <style type="text/css" style="display: none !important;">
+  body { 
+    background: url(/worldmap-grey.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
+</style>
+
+  <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+  <![endif]-->
+ 
+</head>
+
+<body>
+  
+  <script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
+    
+  <script>
+  var socket = io.connect('http://localhost:8000/');
+socket.on('bodyFrame', interpretData);
+function interpretData(bodyFrame) {
+    // Web Socket message:
+    //console.log(bodyFrame);
+    // Select the first body appearing in the data
+    for(var i = 0;  i < bodyFrame.bodies.length; i++) {
+        if(bodyFrame.bodies[i].tracked) {
+          console.log("body tracked");
+          var user = bodyFrame.bodies[i];
+    // Left wrist
+    if(user.joints){
+ 
+ 
+
+  var c = document.getElementById("myCanvas");
+  var ctx = c.getContext("2d");
+  ctx.clearRect(0, 0, c.width, c.height);
+  for(var i=0;i<user.joints.length;i++){
+    ctx.beginPath();
+  
+  ctx.arc(user.joints[i].depthX*1000, user.joints[i].depthY*1000, 10, 0, 2 * Math.PI, false);
+  ctx.fillStyle = 'red';
+  ctx.fill();
+  ctx.stroke();
+  }
+  /*ctx.beginPath();
+  
+  ctx.arc(user.joints[0].depthX*1000, user.joints[0].depthY*1000, 2, 0, 2 * Math.PI, false);
+  ctx.arc(user.joints[1].depthX*1000, user.joints[1].depthY*1000, 2, 0, 2 * Math.PI, false);
+  ctx.arc(user.joints[2].depthX*1000, user.joints[2].depthY*1000, 2, 0, 2 * Math.PI, false);
+  ctx.arc(user.joints[3].depthX*1000, user.joints[3].depthY*1000, 2, 0, 2 * Math.PI, false);
+  ctx.arc(user.joints[4].depthX*1000, user.joints[4].depthY*1000, 2, 0, 2 * Math.PI, false);
+  ctx.arc(user.joints[5].depthX*1000, user.joints[5].depthY*1000, 2, 0, 2 * Math.PI, false);
+  ctx.arc(user.joints[6].depthX*1000, user.joints[6].depthY*1000, 2, 0, 2 * Math.PI, false);
+  ctx.arc(user.joints[7].depthX*1000, user.joints[7].depthY*1000, 2, 0, 2 * Math.PI, false);
+  ctx.arc(user.joints[8].depthX*1000, user.joints[8].depthY*1000, 2, 0, 2 * Math.PI, false);
+  ctx.arc(user.joints[9].depthX*1000, user.joints[9].depthY*1000, 2, 0, 2 * Math.PI, false);
+  ctx.arc(user.joints[10].depthX*1000, user.joints[10].depthY*1000,2, 0, 2 * Math.PI, false);
+  ctx.arc(user.joints[11].depthX*1000, user.joints[11].depthY*1000, 2, 0, 2 * Math.PI, false);
+  ctx.arc(user.joints[12].depthX*1000, user.joints[12].depthY*1000, 2, 0, 2 * Math.PI, false);
+  ctx.arc(user.joints[13].depthX*1000, user.joints[13].depthY*1000, 2, 0, 2 * Math.PI, false);
+  ctx.arc(user.joints[14].depthX*1000, user.joints[14].depthY*1000, 2, 0, 2 * Math.PI, false);
+  ctx.arc(user.joints[15].depthX*1000, user.joints[15].depthY*1000, 2, 0, 2 * Math.PI, false);
+  ctx.arc(user.joints[16].depthX*1000, user.joints[16].depthY*1000, 2, 0, 2 * Math.PI, false);
+  ctx.arc(user.joints[17].depthX*1000, user.joints[17].depthY*1000, 2, 0, 2 * Math.PI, false);
+  ctx.arc(user.joints[18].depthX*1000, user.joints[18].depthY*1000, 2, 0, 2 * Math.PI, false);
+  ctx.arc(user.joints[19].depthX*1000, user.joints[19].depthY*1000, 2, 0, 2 * Math.PI, false);
+  ctx.arc(user.joints[20].depthX*1000, user.joints[20].depthY*1000, 2, 0, 2 * Math.PI, false);
+  ctx.arc(user.joints[21].depthX*1000, user.joints[21].depthY*1000, 2, 0, 2 * Math.PI, false);
+  ctx.arc(user.joints[22].depthX*1000, user.joints[22].depthY*1000, 2, 0, 2 * Math.PI, false);
+  ctx.arc(user.joints[23].depthX*1000, user.joints[23].depthY*1000, 2, 0, 2 * Math.PI, false);
+  ctx.arc(user.joints[24].depthX*1000, user.joints[24].depthY*1000, 2, 0, 2 * Math.PI, false);
+
+  
+  */
+
+  
+  break;
+    /*var rightHandPositon = user.joints[11].depthX;
+    var torsoPositon = user.joints[1].depthX;
+
+    var rightHandRelativePosition = rightHandPositon - torsoPositon;
+    var oldspeed = rightHandRelativePosition;
+    var rightHandRelativeSpeed = rightHandRelativePosition - oldspeed;
+    console.log("relative speed"+rightHandRelativeSpeed);
+    if(rightHandRelativeSpeed < -20) {
+      console.log("swipe left");
+    // Swipe left
+    document.getElementById('kinectData').innerHTML = "Swiped Left";
+    }
+
+    if(rightHandRelativeSpeed > 20) {
+      console.log("swipe Right");
+        document.getElementById('kinectData').innerHTML = "Swiped Right";
+    }*/
+  }
+}
+}
+}
+
+  </script>
+
+  
+
+  <div id="kinectData"></div>
+  <canvas id="myCanvas" width="1300" height="700"></canvas>
+</body>
+</html>
